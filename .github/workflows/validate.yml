@@ -23,18 +23,3 @@ jobs:
             google_private_key: ${{ secrets.ESLINT_COLLECTOR_GOOGLE_PRIVATE_KEY }}
             eslint_project_list: ./
             project_name: datacollectorv3
-
-  tests:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: ./node_modules/.bin/jest
-
