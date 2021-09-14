@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run eslint and send data to collector
-        uses: edgardleal/code-quality-to-spreadsheet-action@v1.0.3
+        uses: edgardleal/code-quality-to-spreadsheet-action@main
         with:
             spreadsheet_id: ${{ secrets.ESLINT_COLLECTOR_SPREADSHEET_ID }}
             google_service_account_email: ${{ secrets.ESLINT_COLLECTOR_GOOGLE_SERVICE_ACCOUNT_EMAIL }}

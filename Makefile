@@ -29,15 +29,6 @@ dist/index.js: $(SOURCES) node_modules/.bin/tsc
 
 build: dist/index.js
 
-node_modules/.bin/jest: package.json
-	yarn || npm i
-	touch node_modules/.bin/jest
-
-install: node_modules/.bin/jest
-
-coverage/index.html: $(SOURCES) node_modules/.bin/jest
-	DEBUG=eslint-collector* yarn test --coverage --coverageReporters html
-
 test: coverage/index.html
 
 compile: dist/index.js
