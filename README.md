@@ -14,13 +14,6 @@
 
 * https://eslint.org/docs/developer-guide/nodejs-api
 
-## TODO
-
-* [X] include authentication from environment variables
-* [X] turn in a github action
-* [ ] include unit tests
-* [ ] load local eslintrc
-
 ## Setup
 
 ```sh
@@ -29,9 +22,45 @@ yarn install
 
 ## Usage
 
-```sh
-npx degit edgardleal/typescript-boilerplate name-of-project
-```
+## Parameters
+
+### eslint_project_list
+
+> A comma separated list of paths to be scanned
+
+* required = `false`
+* default = '.'
+
+### eslint_extensions
+
+> A comma separated list of file extensions to be scanned
+
+* required = `false`
+* default = '.js,.ts,.jsx'
+
+### spreadsheet_id
+
+> The id of the spreadsheet to store the result data
+
+* required = `true`
+
+### google_service_account_email
+
+> The email created to access the spreadsheet
+
+* required = `true`
+
+### google_private_key
+
+> The private key that you download from google console
+
+* required = `true`
+
+### project_name
+
+> The name you want to be sent to spreadsheet
+
+* required = `true`
 
 ## Run tests
 

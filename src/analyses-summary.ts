@@ -21,7 +21,8 @@ export default class AnalysesSummary {
   calculateSummary() {
     const summary: any = {
       name: this.projectName,
-      user: context.sha,
+      user: context.actor,
+      branch: context.ref,
       environment: process.env.ENV || 'dev',
       date: new Date(),
       errors: this.result.reduce(
