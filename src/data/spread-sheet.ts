@@ -1,12 +1,12 @@
 /**
  * spread-sheet.ts
- * Copyright (C) 2020 Editora Sanar
  *
  * Distributed under terms of the MIT license.
  * @author Edgard Leal
  * @module spread-sheet.ts
  */
 import debug from 'debug';
+import { getInput } from '@actions/core';
 import { GoogleSpreadsheet, GoogleSpreadsheetWorksheet, GoogleSpreadsheetRow } from 'google-spreadsheet';
 
 const {
@@ -39,8 +39,8 @@ export default class SheetSync {
     }
     logger('Authenticating...');
     const credentials = {
-      client_email: GOOGLE_SERVICE_ACCOUNT_EMAIL!,
-      private_key: (GOOGLE_PRIVATE_KEY!).replace(/\\+n/g, '\n'),
+      client_email: getInput('google_service_account_email') || GOOGLE_SERVICE_ACCOUNT_EMAIL!,
+      private_key: (getInput('google_private_key') || GOOGLE_PRIVATE_KEY!).replace(/\\+n/g, '\n'),
     };
     await this.doc.useServiceAccountAuth(credentials);
     await this.doc.loadInfo();

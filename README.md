@@ -12,15 +12,12 @@
 
 ## References
 
-* https://www.npmjs.com/package/google-spreadsheet
-* https://docs.google.com/spreadsheets/d/1XMDmc_3JTyv7A7ZFE0RYaDNdcsopxH3P-4hoT6H1-FE/edit#gid=0
-* https://github.com/mrdivyansh/eslint-action/blob/master/lib/run.js ( to check how to mark a PR as running )
 * https://eslint.org/docs/developer-guide/nodejs-api
 
 ## TODO
 
-* [ ] include authentication from environment variables
-* [ ] turn in a github action
+* [X] include authentication from environment variables
+* [X] turn in a github action
 * [ ] include unit tests
 * [ ] load local eslintrc
 

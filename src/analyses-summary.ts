@@ -5,21 +5,23 @@
  * Distributed under terms of the MIT license.
  */
 import { ESLint } from 'eslint';
+import { getInput } from '@actions/core';
+import { context } from '@actions/github';
 
 export default class AnalysesSummary {
   private result: ESLint.LintResult[];
 
   private projectName: string;
 
-  constructor(name: string, result: ESLint.LintResult[]) {
-    this.projectName = name;
+  constructor(result: ESLint.LintResult[]) {
+    this.projectName = (getInput('project_name') || process.env.PROJECT_NAME)!;
     this.result = result;
   }
 
   calculateSummary() {
     const summary: any = {
       name: this.projectName,
-      user: '',
+      user: context.sha,
       environment: process.env.ENV || 'dev',
       date: new Date(),
       errors: this.result.reduce(

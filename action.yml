@@ -1,0 +1,26 @@
+name: 'Code quality exporter'
+description: 'Collect data from eslint and export to database/spreadsheet'
+inputs:
+  project_name:
+    description: 'The project name that will be sent to database/spreadsheet'
+    required: true
+  spreadsheet_id:
+    description: 'The id of target spreadsheet'
+    required: true
+  google_service_account_email:
+    description: 'Service account email to access the spreadsheet'
+    required: true
+  google_private_key:
+    description: 'The service account private key'
+    required: true
+  eslint_project_list:
+    description: 'A list of all paths to be analyzed'
+    required: false
+    default: '.'
+  eslint_extensions:
+    description: 'A list of file extensions to be scanned separated by comma. Ex: .js,.ts'
+    required: false
+    default: '.js,.ts,.jsx'
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
