@@ -7,7 +7,7 @@
         "protocol": "auto",
         "stopOnEntry": true,
         "console": "integratedTerminal",
-        "program": "${workspaceRoot}/dist/index.js",
+        "program": "${workspaceRoot}/index.js",
         "cwd": "${workspaceRoot}"
       }
     }
