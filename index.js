@@ -30,6 +30,9 @@ function getWorkingDir() {
 
   if (!projectPath.startsWith('/')) {
     result = path.join(__dirname, projectPath);
+    if (!result.endsWith('/')) {
+      result = `${result}/`;
+    }
   }
   console.log('Defining work dir to: %s', result); // eslint-disable-line
   return result;
@@ -62,6 +65,7 @@ function printResult(result = []) {
     const params = {
       PROJECTS,
       SPREADSHEET_ID,
+      EXTENSIONS,
       workDir,
     };
     console.log('Using params: %o', params); // eslint-disable-line
