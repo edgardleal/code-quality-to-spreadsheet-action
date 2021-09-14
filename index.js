@@ -8,7 +8,6 @@ require('dotenv/config');
 const debug = require('debug');
 const path = require('path');
 const eslint = require('eslint');
-const { existsSync } = require('fs');
 const { setFailed, getInput } = require('@actions/core');
 const SheetSync = require('./src/data/spread-sheet');
 const AnalysesSummary = require('./src/analyses-summary');
@@ -29,7 +28,7 @@ function getWorkingDir() {
   const projectPath = globIndex > -1 ? PROJECTS[0].substr(0, globIndex) : PROJECTS[0];
   let result = projectPath;
 
-  if (!existsSync(projectPath)) {
+  if (!projectPath.startsWith('/')) {
     result = path.join(__dirname, projectPath);
   }
   console.log('Defining work dir to: %s', result); // eslint-disable-line
