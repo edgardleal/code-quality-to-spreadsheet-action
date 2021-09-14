@@ -52,8 +52,8 @@ function printResult(result = []) {
       cwd: workDir,
       extensions: EXTENSIONS,
     });
-    logger('Running linter for projects: %o', PROJECTS);
-    const result = await lint.lintFiles(PROJECTS);
+    logger('Running linter for projects: %o', workDir);
+    const result = await lint.lintFiles('.');
 
     await sheet.saveResult(new AnalysesSummary(result).calculateSummary());
 
