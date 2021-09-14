@@ -1,4 +1,7 @@
 name: 'Code quality exporter'
+branding:
+  icon: 'award'  
+  color: 'green'
 description: 'Collect data from eslint and export to database/spreadsheet'
 inputs:
   project_name:
