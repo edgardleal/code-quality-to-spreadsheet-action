@@ -7,6 +7,10 @@
 const { getInput } = require('@actions/core');
 const { context } = require('@actions/github');
 
+function cleanupBranchName(name = '') {
+  return name.replace(/refs\/heads\//, '');
+}
+
 module.exports = class AnalysesSummary {
   result = [];
 
@@ -21,7 +25,7 @@ module.exports = class AnalysesSummary {
     const summary = {
       name: this.projectName,
       user: context.actor,
-      branch: context.ref,
+      branch: cleanupBranchName(context.ref),
       environment: process.env.ENV || 'dev',
       date: new Date(),
       errors: this.result.reduce(
