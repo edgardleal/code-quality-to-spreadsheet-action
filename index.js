@@ -42,10 +42,11 @@ function printResult(result = []) {
 }
 
 (async () => {
+  const workDir = getWorkingDir();
   try {
     const sheet = new SheetSync(getInput('spreadsheet_id') || SPREADSHEET_ID);
     const lint = new eslint.ESLint({
-      cwd: getWorkingDir(),
+      cwd: workDir,
       extensions: EXTENSIONS,
     });
     logger('Running linter for projects: %o', PROJECTS);
@@ -58,6 +59,12 @@ function printResult(result = []) {
   } catch (e) {
     console.error('Error message: %s', e.message); // eslint-disable-line
     console.error('Error: %o', e.stack); // eslint-disable-line
+    const params = {
+      PROJECTS,
+      SPREADSHEET_ID,
+      workDir,
+    };
+    console.log('Using params: %o', params); // eslint-disable-line
     setFailed(e.message);
   }
 })();
