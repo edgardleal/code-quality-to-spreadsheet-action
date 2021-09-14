@@ -4,7 +4,6 @@
   "main": "dist/index.js",
   "license": "MIT",
   "scripts": {
-    "test": "jest",
     "lint": "eslint  './**/*.ts'"
   },
   "dependencies": {
