@@ -23,6 +23,18 @@ yarn install
 
 ## Usage
 
+```yml
+  - name: Run eslint and send data to collector
+    uses: edgardleal/code-quality-to-spreadsheet-action@v1.0.1
+    with:
+      spreadsheet_id: ${{ secrets.ESLINT_COLLECTOR_SPREADSHEET_ID }}
+      google_service_account_email: ${{ secrets.ESLINT_COLLECTOR_GOOGLE_SERVICE_ACCOUNT_EMAIL }}
+      google_private_key: ${{ secrets.ESLINT_COLLECTOR_GOOGLE_PRIVATE_KEY }}
+      eslint_project_list: .
+      project_name: data-collector-v2
+```
+
+
 ## Parameters
 
 ### eslint_project_list
