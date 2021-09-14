@@ -29,7 +29,7 @@ function getWorkingDir() {
   let result = projectPath;
 
   if (!projectPath.startsWith('/')) {
-    result = path.join(__dirname, projectPath);
+    result = path.join(process.cwd(), projectPath);
     if (!result.endsWith('/')) {
       result = `${result}/`;
     }
