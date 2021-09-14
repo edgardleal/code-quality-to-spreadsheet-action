@@ -32,10 +32,12 @@ const EXTENSIONS = (core_1.getInput('eslint_extensions') || ESLINT_EXTENSIONS ||
 function getWorkingDir() {
     const globIndex = PROJECTS[0].indexOf('**');
     const projectPath = globIndex > -1 ? PROJECTS[0].substr(0, globIndex) : PROJECTS[0];
+    let result = projectPath;
     if (!fs_1.existsSync(projectPath)) {
-        return path_1.default.join(__dirname, projectPath);
+        result = path_1.default.join(__dirname, projectPath);
     }
-    return PROJECTS[0];
+    console.log('Defining work dir to: %s', result); // eslint-disable-line
+    return result;
 }
 function printResult(result) {
     result.forEach((data) => {
