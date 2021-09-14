@@ -52,12 +52,13 @@ function printResult(result: ESLint.LintResult[]) {
     logger('Running linter for projects: %o', PROJECTS);
     const result: ESLint.LintResult[] = await lint.lintFiles(PROJECTS);
 
-    await sheet.saveResult(new AnalysesSummary('collector', result).calculateSummary());
+    await sheet.saveResult(new AnalysesSummary(result).calculateSummary());
 
     printResult(result);
     console.log('Done.'); // eslint-disable-line
   } catch (e) {
-    console.log('Error: %s', e.message); // eslint-disable-line
+    console.error('Error message: %s', e.message); // eslint-disable-line
+    console.error('Error: %o', e.stack); // eslint-disable-line
     setFailed(e.message);
   }
 })();

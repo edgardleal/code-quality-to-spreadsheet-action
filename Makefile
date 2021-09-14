@@ -43,8 +43,7 @@ test: coverage/index.html
 compile: dist/index.js
 
 clean: ## clean: Remove ./node_modules and call clean in all children projects
-	rm -rf ./node_modules
-	rm -rf ./dist
+	git clean -fXd
 
 hel%: ## help: Show this help message.
 	@echo "usage: make [target] ..."

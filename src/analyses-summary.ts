@@ -15,7 +15,7 @@ export default class AnalysesSummary {
 
   constructor(result: ESLint.LintResult[]) {
     this.projectName = (getInput('project_name') || process.env.PROJECT_NAME)!;
-    this.result = result;
+    this.result = result || [];
   }
 
   calculateSummary() {

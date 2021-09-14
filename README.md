@@ -1,14 +1,15 @@
-<h1 align="center">Welcome to ts-template 👋</h1>
+<h1 align="center">Code Quality to Spreadsheet Action 👋</h1>
 <p>
-  <a href="https://www.npmjs.com/package/ts-template" target="_blank">
-    <img alt="Version" src="https://img.shields.io/npm/v/ts-template.svg">
+  <a href="https://github.com/edgardleal/code-quality-to-spreadsheet-action/actions/workflows/validate.yml" target="_blank">
+    <img alt="Lint" src="https://github.com/edgardleal/code-quality-to-spreadsheet-action/actions/workflows/validate.yml/badge.svg">
   </a>
+
   <a href="#" target="_blank">
     <img alt="License: MIT" src="https://img.shields.io/badge/License-MIT-yellow.svg" />
   </a>
 </p>
 
-> A boilerplate to typescript projects
+> A github action to send eslint results to Google Spreadsheet
 
 ## References
 
