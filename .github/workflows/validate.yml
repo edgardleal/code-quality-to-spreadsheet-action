@@ -15,6 +15,15 @@ jobs:
       - run: npm ci
       - run: npm run lint
 
+      - name: Run eslint and send data to collector
+        uses: edgardleal/code-quality-to-spreadsheet-action@main
+        with:
+            spreadsheet_id: ${{ secrets.ESLINT_COLLECTOR_SPREADSHEET_ID }}
+            google_service_account_email: ${{ secrets.ESLINT_COLLECTOR_GOOGLE_SERVICE_ACCOUNT_EMAIL }}
+            google_private_key: ${{ secrets.ESLINT_COLLECTOR_GOOGLE_PRIVATE_KEY }}
+            eslint_project_list: ./
+            project_name: datacollectorv3
+
   tests:
     runs-on: ubuntu-latest
     strategy:

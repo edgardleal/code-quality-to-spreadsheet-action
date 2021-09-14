@@ -4,7 +4,7 @@ node_modules/@babel
 node_modules/@sinonjs
 node_modules/@types*
 node_modules/babel-jest
-node_modules/jest*
+node_modules/jest
 node_modules/node-notifier
 node_modules/pretty-format
 node_modules/ts*
