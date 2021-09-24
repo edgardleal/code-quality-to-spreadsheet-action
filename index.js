@@ -20,6 +20,8 @@ const {
   ESLINT_EXTENSIONS,
 } = process.env;
 
+const EXIT_WITH_ERROR_WHEN_ERRORS = getInput('exit_with_error_when_errors') === 'true';
+
 const PROJECTS = (getInput('eslint_project_list') || ESLINT_PROJECT_LIST || '.').split(',');
 const EXTENSIONS = (getInput('eslint_extensions') || ESLINT_EXTENSIONS || '.js,.ts,.jsx').split(',');
 
@@ -39,9 +41,13 @@ function getWorkingDir() {
 }
 
 function printResult(result = []) {
-  result.forEach((data = {}) => {
+  return result.reduce((prev = { errors: 0, warnings: 0 }, data = {}) => {
     console.log('%s - %d', data.filePath, data.errorCount); // eslint-disable-line
-  });
+    return {
+      errors: prev.errors + data.errorCount,
+      warnings: prev.warnings + data.warnings,
+    };
+  }, { errors: 0, warnings: 0 });
 }
 
 (async () => {
@@ -57,8 +63,12 @@ function printResult(result = []) {
 
     await sheet.saveResult(new AnalysesSummary(result).calculateSummary());
 
-    printResult(result);
+    const summary = printResult(result);
     console.log('Done.'); // eslint-disable-line
+
+    if (summary.errors && EXIT_WITH_ERROR_WHEN_ERRORS) {
+      process.exit(1);
+    }
   } catch (e) {
     console.error('Error message: %s', e.message); // eslint-disable-line
     console.error('Error: %o', e.stack); // eslint-disable-line

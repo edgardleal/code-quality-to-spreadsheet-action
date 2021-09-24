@@ -24,6 +24,14 @@ inputs:
     description: 'A list of file extensions to be scanned separated by comma. Ex: .js,.ts'
     required: false
     default: '.js,.ts,.jsx'
+  exit_with_error_when_errors:
+    description: 'Exit process with code 1 when there has some error'
+    required: false
+    default: 'true'
+  exit_with_error_when_warning:
+    description: 'Exit process with code 1 when there has some warning'
+    required: false
+    default: 'false'
 runs:
   using: 'node12'
   main: 'index.js'

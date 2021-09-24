@@ -27,10 +27,13 @@ module.exports = class SheetSync {
 
   sheet = {};
 
+  id = '';
+
   constructor(
     id = '',
     sheet = 0,
   ) {
+    this.id = id;
     this.sheetNumber = sheet;
     this.doc = new GoogleSpreadsheet(id);
   }
@@ -54,9 +57,32 @@ module.exports = class SheetSync {
     return this.doc;
   }
 
-  async saveResult(data = {}) {
+  async saveResult(data = {
+    name: '',
+    user: '',
+    environment: '',
+    date: '',
+    errors: '',
+    warnings: '',
+    branch: '',
+  }) {
     await this.auth();
     await this.sheet.addRow(data);
+    const summaryData = {
+      Name: data.name,
+      Errors: data.errors,
+      Warnings: data.warnings,
+      LastUpdate: data.date,
+    };
+    const summarySheet = new SheetSync(this.id, 1);
+    const exists = (await summarySheet.getAllRows()).find(row => row.name === data.name);
+    if (exists) {
+      exists.Errors = summaryData.Errors;
+      exists.Warnings = summaryData.Warnings;
+      exists.LastUpdate = summaryData.LastUpdate;
+      return exists.save();
+    }
+    return summarySheet.sheet.addRow(summaryData);
   }
 
   /**
@@ -76,7 +102,7 @@ module.exports = class SheetSync {
    * a row is not empty, if the row is empty, the lines bellow
    * will not be used.
    */
-  async getAllRows(fieldNameToValidate) {
+  async getAllRows(fieldNameToValidate = 'name') {
     const result = [];
 
     let list = [];
