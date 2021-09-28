@@ -18,6 +18,10 @@ const {
 
 const logger = debug('eslint-collector:spreadsheet');
 
+function compareStrings(a = '', b = '') {
+  return (a || '').toLowerCase().trim() === b.toLowerCase().trim();
+}
+
 module.exports = class SheetSync {
   sheetNumber = 1;
 
@@ -75,7 +79,7 @@ module.exports = class SheetSync {
       LastUpdate: data.date,
     };
     const summarySheet = new SheetSync(this.id, 1);
-    const exists = (await summarySheet.getAllRows()).find(row => row.name === data.name);
+    const exists = await this.findRown('name', data.name);
     if (exists) {
       exists.Errors = summaryData.Errors;
       exists.Warnings = summaryData.Warnings;
@@ -96,6 +100,27 @@ module.exports = class SheetSync {
     });
   }
 
+  async findRown(field = '', value = '') {
+
+    let list = [];
+    let skip = 0;
+    do {
+      list = await this.getRows(skip);
+      for (let i = 0; i < list.length; i += 1) {
+        const item = list[i];
+        const fieldValue = item[field];
+        if (!item[fieldNameToValidate]) {
+          return null;
+        }
+        if (compareStrings(value, fieldValue)) {
+          return item;
+        }
+      }
+
+      skip += list.length;
+    } while (list.length && list[list.length - 1][fieldNameToValidate]);
+    return null;
+  }
   /**
    * Get all rows from current sheet.
    * the `fieldNameToValidate` will be used to check if
