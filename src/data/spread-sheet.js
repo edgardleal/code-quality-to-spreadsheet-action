@@ -154,13 +154,4 @@ class SheetSync {
   }
 }
 
-(async () => {
-  try {
-    const sheet = new SheetSync(process.env.SPREADSHEET_ID);
-    const result = await sheet.findRown('name', 'cached-api');
-    console.log('Result: %o', result); // eslint-disable-line
-  } catch (e) {
-    console.error('Error: %s', e.message); // eslint-disable-line
-  }
-})();
 module.exports = SheetSync;
