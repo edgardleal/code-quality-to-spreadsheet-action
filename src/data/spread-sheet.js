@@ -5,6 +5,7 @@
  * @author Edgard Leal
  * @module spread-sheet.ts
  */
+require('dotenv/config');
 const debug = require('debug');
 const { getInput } = require('@actions/core');
 const {
@@ -22,7 +23,7 @@ function compareStrings(a = '', b = '') {
   return (a || '').toLowerCase().trim() === b.toLowerCase().trim();
 }
 
-module.exports = class SheetSync {
+class SheetSync {
   sheetNumber = 1;
 
   isAuthenticated = false;
@@ -100,6 +101,11 @@ module.exports = class SheetSync {
     });
   }
 
+  /**
+    *
+    * @param {string} field - the name of the field/column where the value should be stored
+    * @param {string} value - the value you is searching for
+    */
   async findRown(field = '', value = '') {
 
     let list = [];
@@ -109,7 +115,7 @@ module.exports = class SheetSync {
       for (let i = 0; i < list.length; i += 1) {
         const item = list[i];
         const fieldValue = item[field];
-        if (!item[fieldNameToValidate]) {
+        if (!item[field]) {
           return null;
         }
         if (compareStrings(value, fieldValue)) {
@@ -118,7 +124,7 @@ module.exports = class SheetSync {
       }
 
       skip += list.length;
-    } while (list.length && list[list.length - 1][fieldNameToValidate]);
+    } while (list.length && list[list.length - 1][field]);
     return null;
   }
   /**
@@ -147,3 +153,14 @@ module.exports = class SheetSync {
     return result;
   }
 }
+
+(async () => {
+  try {
+    const sheet = new SheetSync(process.env.SPREADSHEET_ID);
+    const result = await sheet.findRown('name', 'cached-api');
+    console.log('Result: %o', result); // eslint-disable-line
+  } catch (e) {
+    console.error('Error: %s', e.message); // eslint-disable-line
+  }
+})();
+module.exports = SheetSync;
