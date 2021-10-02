@@ -11,6 +11,7 @@ const { getInput } = require('@actions/core');
 const {
   GoogleSpreadsheet,
 } = require('google-spreadsheet');
+const CustomDate = require('../date');
 
 const {
   GOOGLE_SERVICE_ACCOUNT_EMAIL,
@@ -62,6 +63,22 @@ class SheetSync {
     return this.doc;
   }
 
+  async saveSummaryHistory(summary = {}) {
+    const startOfThisMonth = CustomDate.startOfThiMonth();
+    const key = `${startOfThisMonth.toString()}-${summary.name}`;
+
+    const summarySheet = new SheetSync(this.id, 2);
+    const exists = await this.findRown('key', key);
+    if (exists) {
+      exists.Errors = summaryData.Errors;
+      exists.Warnings = summaryData.Warnings;
+      exists.LastUpdate = summaryData.LastUpdate;
+      return exists.save();
+    }
+    return summarySheet.sheet.addRow(summary);
+
+  }
+
   async saveResult(data = {
     name: '',
     user: '',
@@ -79,6 +96,7 @@ class SheetSync {
       Warnings: data.warnings,
       LastUpdate: data.date,
     };
+    await this.saveSummaryHistory(summaryData);
     const summarySheet = new SheetSync(this.id, 1);
     const exists = await this.findRown('name', data.name);
     if (exists) {
