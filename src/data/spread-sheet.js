@@ -68,7 +68,8 @@ class SheetSync {
     const key = `${startOfThisMonth.toString()}-${summary.name}`;
 
     const summarySheet = new SheetSync(this.id, 2);
-    const exists = await this.findRown('key', key);
+    await summarySheet.auth();
+    const exists = await summarySheet.findRown('key', key);
     if (exists) {
       exists.Errors = summaryData.Errors;
       exists.Warnings = summaryData.Warnings;
@@ -98,7 +99,8 @@ class SheetSync {
     };
     await this.saveSummaryHistory(summaryData);
     const summarySheet = new SheetSync(this.id, 1);
-    const exists = await this.findRown('name', data.name);
+    await summarySheet.auth();
+    const exists = await summarySheet.findRown('name', data.name);
     if (exists) {
       exists.Errors = summaryData.Errors;
       exists.Warnings = summaryData.Warnings;
