@@ -66,6 +66,7 @@ class SheetSync {
   async saveSummaryHistory(summary = {}) {
     const startOfThisMonth = CustomDate.startOfThiMonth();
     const key = `${startOfThisMonth.toString()}-${summary.name}`;
+    summary.key = key;
 
     const summarySheet = new SheetSync(this.id, 2);
     await summarySheet.auth();
