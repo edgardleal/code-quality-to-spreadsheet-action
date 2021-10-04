@@ -72,9 +72,9 @@ class SheetSync {
     await summarySheet.auth();
     const exists = await summarySheet.findRown('key', key);
     if (exists) {
-      exists.Errors = summaryData.Errors;
-      exists.Warnings = summaryData.Warnings;
-      exists.LastUpdate = summaryData.LastUpdate;
+      exists.Errors = summary.Errors;
+      exists.Warnings = summary.Warnings;
+      exists.LastUpdate = summary.LastUpdate;
       return exists.save();
     }
     return summarySheet.sheet.addRow(summary);
