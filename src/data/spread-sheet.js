@@ -20,7 +20,13 @@ const {
 
 const logger = debug('eslint-collector:spreadsheet');
 
+/**
+  * @param {string} -
+  * @param {string} -
+  * @returns {boolean}
+  */
 function compareStrings(a = '', b = '') {
+  logger('Comparing [%s] and [%s]', a, b);
   return (a || '').toLowerCase().trim() === b.toLowerCase().trim();
 }
 
@@ -55,7 +61,9 @@ class SheetSync {
     };
     await this.doc.useServiceAccountAuth(credentials);
     await this.doc.loadInfo();
-    logger(`Doc: ${this.doc.title}`);
+    logger('%o', {
+      title: this.doc.title,
+    });
     this.sheet = this.doc.sheetsByIndex[this.sheetNumber];
     logger(`Sheet: ${this.sheet.title}`);
     logger(`Rowns: ${this.sheet.rowCount}`);
@@ -101,12 +109,25 @@ class SheetSync {
     await this.saveSummaryHistory(summaryData);
     const summarySheet = new SheetSync(this.id, 1);
     await summarySheet.auth();
-    const exists = await summarySheet.findRown('name', data.name);
+    logger('%o', {
+      msg: 'searching.name',
+      name: data.name,
+    });
+    const exists = await summarySheet.findRown('Name', data.name);
     if (exists) {
+      logger('%o', {
+        msg: 'row.found',
+        name: data.name,
+      });
       exists.Errors = summaryData.Errors;
       exists.Warnings = summaryData.Warnings;
       exists.LastUpdate = summaryData.LastUpdate;
       return exists.save();
+    } else {
+      logger('%o', {
+        msg: 'row.not.found',
+        name: data.name,
+      });
     }
     return summarySheet.sheet.addRow(summaryData);
   }
@@ -128,7 +149,6 @@ class SheetSync {
     * @param {string} value - the value you is searching for
     */
   async findRown(field = '', value = '') {
-
     let list = [];
     let skip = 0;
     do {
