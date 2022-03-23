@@ -5,6 +5,7 @@
  */
 require('dotenv/config');
 
+const fs = require('fs');
 const debug = require('debug');
 const path = require('path');
 const eslint = require('eslint');
@@ -50,16 +51,30 @@ function printResult(result = []) {
   }, { errors: 0, warnings: 0 });
 }
 
+async function getLintData() {
+  const resultFilePath = getInput('result_file');
+  if (resultFilePath) {
+    if (fs.existsSync(resultFilePath)) {
+      const stringContent = fs.readFileSync(resultFilePath);
+      return JSON.parse(stringContent);
+    }
+    console.warn('Eslint result data not found: [%s]', resultFilePath); // eslint-disable-line
+  }
+  const workDir = getWorkingDir();
+  const lint = new eslint.ESLint({
+    cwd: workDir,
+    extensions: EXTENSIONS,
+  });
+  logger('Running linter for projects: %o', workDir);
+  return lint.lintFiles('.');
+}
+
 (async () => {
   const workDir = getWorkingDir();
   try {
     const sheet = new SheetSync(getInput('spreadsheet_id') || SPREADSHEET_ID);
-    const lint = new eslint.ESLint({
-      cwd: workDir,
-      extensions: EXTENSIONS,
-    });
     logger('Running linter for projects: %o', workDir);
-    const result = await lint.lintFiles('.');
+    const result = await getLintData();
 
     await sheet.saveResult(new AnalysesSummary(result).calculateSummary());
 

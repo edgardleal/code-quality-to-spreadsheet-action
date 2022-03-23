@@ -4,6 +4,9 @@ branding:
   color: 'green'
 description: 'Collect data from eslint and export to database/spreadsheet'
 inputs:
+  result_file:
+    description: 'Path of the json file with result of eslint run'
+    required: false
   project_name:
     description: 'The project name that will be sent to database/spreadsheet'
     required: true
