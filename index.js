@@ -59,6 +59,7 @@ async function getLintData() {
       return JSON.parse(stringContent);
     }
     console.warn('Eslint result data not found: [%s]', resultFilePath); // eslint-disable-line
+    return [];
   }
   const workDir = getWorkingDir();
   const lint = new eslint.ESLint({
